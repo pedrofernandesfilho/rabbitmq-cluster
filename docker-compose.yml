@@ -1,26 +1,30 @@
 version: "3.8"
+
 services:
 
-  rabbit1:
+  rabbitmq1:
     build: .
-    container_name: rabbitmq_1
-    hostname: rabbitmq-cluster-node-1
+    image: rabbitmq-cluster
+    container_name: rabbitmq-cluster-n1
+    hostname: rabbitmq1
     ports:
       - "5672:5672"
       - "15672:15672"
 
-  rabbit2:
+  rabbitmq2:
     build: .
-    container_name: rabbitmq_2
-    hostname: rabbitmq-cluster-node-2
+    image: rabbitmq-cluster
+    container_name: rabbitmq-cluster-n2
+    hostname: rabbitmq2
     ports:
       - "5673:5672"
       - "15673:15672"
 
-  rabbit3:
+  rabbitmq3:
     build: .
-    container_name: rabbitmq_3
-    hostname: rabbitmq-cluster-node-3
+    image: rabbitmq-cluster
+    container_name: rabbitmq-cluster-n3
+    hostname: rabbitmq3
     ports:
       - "5674:5672"
       - "15674:15672"
