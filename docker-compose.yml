@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.3"
 
 services:
 
@@ -19,6 +19,10 @@ services:
     ports:
       - "5673:5672"
       - "15673:15672"
+    depends_on:
+      - rabbitmq1
+    environment:
+      - RABBITMQ_CONFIG_FILE=/etc/rabbitmq/rabbitmq-cluster
 
   rabbitmq3:
     build: .
@@ -28,3 +32,8 @@ services:
     ports:
       - "5674:5672"
       - "15674:15672"
+    depends_on:
+      - rabbitmq1
+      - rabbitmq2
+    environment:
+      - RABBITMQ_CONFIG_FILE=/etc/rabbitmq/rabbitmq-cluster
