@@ -13,6 +13,8 @@ On repo root directory run:
 docker-compose up -d
 ```
 
+For the current peer discovery strategy (config file), the second and third containers can take up to 60 seconds to become available when running `docker-compose up` for the first time. Next time, the time is less.
+
 ## How it works
 
 In the `Dockerfile` the `RABBITMQ_ERLANG_COOKIE` environment variable is set to configure a same key to cookie for all RabbitMQ containers. It is needed to cluster formation.
