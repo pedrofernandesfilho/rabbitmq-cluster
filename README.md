@@ -2,7 +2,13 @@
 
 ## Required tools
 
+### Cluster
+
 - Docker Compose (min Docker Engine version tested: 17.06.0)
+
+### Application
+
+- .NET Core 3.1
 
 ## Instructions
 
