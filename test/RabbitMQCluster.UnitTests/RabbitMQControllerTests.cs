@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -16,9 +15,9 @@ namespace RabbitMQCluster.UnitTests
             var logger = Mock.Of<ILogger<RabbitMQController>>();
             var controller = new RabbitMQController(logger);
 
-            var result = (ObjectResult)controller.Post();
+            var result = controller.Post();
 
-            result.StatusCode.Should().Be(StatusCodes.Status202Accepted);
+            result.Should().BeOfType<AcceptedResult>();
         }
     }
 }
