@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using System;
 
@@ -6,24 +8,24 @@ namespace RabbitMQCluster.WebApi
 {
     static class RabbitMQExtensions
     {
-        public static void AddRabbitMQ(this IServiceCollection services)
+        public static void AddRabbitMQ(this IServiceCollection services, IConfiguration configuration)
         {
-            var serviceProvider = services.BuildServiceProvider();
-            services.AddSingleton<IConnection>(CreateConnection());
-            services.AddSingleton<IModel>(CreateChannel(serviceProvider));
+            services.Configure<RabbitMQConfig>(configuration.GetSection("RabbitMQ"));
+            services.AddSingleton<IConnection>(CreateConnection);
+            services.AddSingleton<IModel>(CreateChannel);
         }
 
-        private static IConnection CreateConnection()
+        private static IConnection CreateConnection(IServiceProvider serviceProvider)
         {
+            var rabbitMQConfig = serviceProvider.GetRequiredService<IOptions<RabbitMQConfig>>();
             var connectionFactory = new ConnectionFactory
             {
-                Uri = new Uri("amqp://localhost:5673")
+                Uri = new Uri(rabbitMQConfig.Value.ConnectionUri)
             };
-
             return connectionFactory.CreateConnection();
         }
 
-        private static IModel CreateChannel(ServiceProvider serviceProvider) =>
+        private static IModel CreateChannel(IServiceProvider serviceProvider) =>
             serviceProvider.GetRequiredService<IConnection>().CreateModel();
     }
 }
